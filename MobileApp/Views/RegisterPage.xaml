@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApp.Views.RegisterPage"
+             xmlns:viewModels="clr-namespace:MobileApp.ViewModels"
+             xmlns:converters="clr-namespace:MobileApp.Converters" >
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:TextToColorConverter x:Key="TextToColorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    
+    <ContentPage.BindingContext>
+        <viewModels:RegisterPageViewModel></viewModels:RegisterPageViewModel>
+    </ContentPage.BindingContext>
+
+
+    <Grid BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid.RowDefinitions >
+            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition  Height="0.5*"></RowDefinition>
+            <RowDefinition  Height="0.3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackLayout  Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Label TextColor="Black" Text="Welcome to the Dieting app!" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="EndAndExpand" FontSize="32"/>
+            <Label TextColor="Black" Text="Register Page" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="EndAndExpand" FontSize="24"/>
+        </StackLayout>
+        <StackLayout  Grid.Row="1" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <StackLayout Padding="0,0,0,30" Orientation="Vertical">
+                <Label TextColor="Black" HorizontalOptions="Center" Text="Enter account name "/>
+                <Entry Placeholder="Name" Text="{Binding Username, Mode=TwoWay}"></Entry>
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical">
+                <Label TextColor="Black" HorizontalOptions="Center" Text="Enter password " />
+                <Entry IsPassword="true" Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" ></Entry>
+                <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                </StackLayout>
+                <Button Text="Register" CornerRadius="10" BackgroundColor="DeepSkyBlue" Command="{Binding RegisterCommand}"></Button>
+            </StackLayout>
+        </StackLayout>
+        <StackLayout  Grid.Row="2" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                <Label Margin="0,0,0,30" FontAttributes="Bold"  TextColor="{Binding Status, Converter={StaticResource TextToColorConverter}}" Text="{Binding Status, Mode=TwoWay}"></Label>
+            </StackLayout>
+            <StackLayout HorizontalOptions="Center">
+                <Button CornerRadius="10" BackgroundColor="DeepSkyBlue" Text="Go to Login Page" Command="{Binding NavigateToLoginCommand}"/>
+            </StackLayout>
+        </StackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApp.Views.PersonalPage"
+             xmlns:converters="clr-namespace:MobileApp.Converters" >
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:AddCaloriesConverter x:Key="AddCaloriesConverter"/>
+            <converters:CaloriesToColorConverter x:Key="CaloriesToColorConverter"/>
+            <converters:VerifyIfThereIsFoodsConverter x:Key="VerifyIfThereIsFoodsConverter"/>
+            <converters:CalorieResponseConverter x:Key="CalorieResponseConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Search for foods" Command="{Binding GoBackToSearchCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HorizontalOptions="Center">
+                <Label FontAttributes="Bold" FontFamily="Comic Sans MS" TextDecorations="Underline" Text="Dieting App" FontSize="30" Margin="0,10,0,50" />
+            </StackLayout>
+            <StackLayout HorizontalOptions="Center">
+                <Label Text="Total Daily calories:"></Label>
+            </StackLayout>
+            <StackLayout  HorizontalOptions="Center" >
+                <Label FontAttributes="Bold" Text="{Binding TotalCalories, Converter={StaticResource VerifyIfThereIsFoodsConverter}}" TextColor="{Binding TotalCalories, Converter={StaticResource CaloriesToColorConverter}}"></Label>
+            </StackLayout>
+            <Label FontAttributes="Bold" Text="{Binding TotalCalories, Converter={StaticResource CalorieResponseConverter}}" HorizontalOptions="Center"/>
+            <CollectionView ItemsSource="{Binding Foods}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedFood}"
+                x:Name="FoodsCollection">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                       BackgroundColor="Red"
+                                       IconImageSource="https://www.freeiconspng.com/thumbs/trash-can-icon/trash-can-icon-28.png"
+                                        Command="{Binding Source={x:Reference FoodsCollection}, Path=BindingContext.DeleteFoodComamnd}"
+                                       CommandParameter="{Binding}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.RowSpan="2"
+                           Source="{Binding ImageLink}"
+                           Aspect="AspectFill"
+                           HeightRequest="60"
+                           WidthRequest="60" />
+                                <Label Grid.Column="1"
+                           Text="{Binding Name}"
+                           FontAttributes="Bold" />
+                                <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Text="{Binding Calories, Converter={StaticResource AddCaloriesConverter}}"
+                           FontAttributes="Italic"
+                           VerticalOptions="End" />
+                            </Grid>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+    

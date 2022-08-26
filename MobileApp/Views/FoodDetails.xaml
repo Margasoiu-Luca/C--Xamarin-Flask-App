@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApp.Views.FoodDetails"
+             xmlns:converters="clr-namespace:MobileApp.Converters" >
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:CheckIfButtonNeededConverter x:Key="CheckIfButtonNeededConverter"/>
+            <converters:CalculatePercentOfDailyCalories x:Key="CalculatePercentOfDailyCalories"/>
+            <converters:IsFoodSuccessfullyAddedConverter x:Key="IsFoodSuccessfullyAddedConverter"/>
+            <converters:IsVeganColorConverter x:Key="IsVeganColorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <StackLayout Margin="20">
+            <StackLayout HorizontalOptions="Center">
+                <Label FontAttributes="Bold" FontFamily="Comic Sans MS" TextDecorations="Underline"  
+                       FontSize="30" Text="{Binding CurrentFood.Name}" Margin="0,10,0,50"/>
+            </StackLayout>
+            <StackLayout VerticalOptions="Center"  Orientation="Horizontal">
+                <Image Source="{Binding CurrentFood.ImageLink}"></Image>
+                <Label Text="{Binding CurrentFood.Description}" FontAttributes="Italic" FontFamily="Comic Sans MS" FontSize="20"/>
+            </StackLayout>
+
+            <StackLayout>
+                <Label FontSize="25" Text="{Binding CurrentFood.Calories,Converter={StaticResource CalculatePercentOfDailyCalories}}" />
+            </StackLayout>
+
+            <StackLayout >
+                <Label FontSize="25" Text="{Binding CurrentFood.Vegan}" TextColor="{Binding CurrentFood.Vegan, Converter={StaticResource IsVeganColorConverter}}"/>
+            </StackLayout>
+
+            <Button Text="Add in Diet"
+                    Command="{Binding AddFoodCommand}" IsVisible="{Binding FoodService, Converter={StaticResource CheckIfButtonNeededConverter}}"
+                    BackgroundColor="DeepSkyBlue" CornerRadius="10"/>
+            <StackLayout HorizontalOptions="CenterAndExpand" >
+                <Label Text="{Binding Success}" TextColor="{Binding Success, Converter={StaticResource IsFoodSuccessfullyAddedConverter}}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
